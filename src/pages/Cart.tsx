@@ -139,19 +139,19 @@ const Cart = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 p-4">
       <div className="container max-w-4xl mx-auto py-6">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-right mb-8"
-        >
-          <Button
-            variant="ghost"
-            onClick={() => navigate(`/carts`)}
-            className="mb-6"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-        </motion.div>
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-right mb-8"
+                >
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate(`/carts`)}
+                    className="mb-6"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back
+                  </Button>
+                </motion.div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -181,18 +181,18 @@ const Cart = () => {
             {/* Add Item Button */}
             <Dialog open={isAddItemOpen} onOpenChange={setIsAddItemOpen}>
               {/* <DialogTrigger asChild> */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
-              >
-                <Card onClick={() => navigate('/shop')} className="p-6 cursor-pointer hover:shadow-card transition-all duration-300 border-dashed border-2 border-primary/50 bg-primary/5">
-                  <div className="flex items-center justify-center gap-2 text-primary">
-                    <Plus className="w-6 h-6" />
-                    <span className="font-semibold">Add Item to Cart</span>
-                  </div>
-                </Card>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <Card onClick={()=> navigate('/shop')} className="p-6 cursor-pointer hover:shadow-card transition-all duration-300 border-dashed border-2 border-primary/50 bg-primary/5">
+                    <div className="flex items-center justify-center gap-2 text-primary">
+                      <Plus className="w-6 h-6" />
+                      <span className="font-semibold">Add Item to Cart</span>
+                    </div>
+                  </Card>
+                </motion.div>
               {/* </DialogTrigger> */}
 
               <DialogContent>

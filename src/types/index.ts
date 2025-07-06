@@ -42,8 +42,8 @@ export type CategoryBudget = {
 
 export const COMMON_ALLERGIES = [
   'Peanuts',
-  'Tree Nuts',
-  'Milk/Dairy',
+  'Tree',
+  'Milk',
   'Eggs',
   'Soy',
   'Wheat/Gluten',
@@ -61,7 +61,8 @@ export const PRODUCT_CATEGORIES = [
   'Bakery',
   'Frozen Foods',
   'Household',
-  'Personal Care'
+  'Personal Care',
+  'Sugar'
 ];
 
 export type Product = {
