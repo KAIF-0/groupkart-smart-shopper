@@ -17,7 +17,11 @@ const Carts = () => {
   //   return null;
   // }
 
-  const userCarts = Object.values(carts)
+  const cartsList = Object.values(carts);
+  const userCarts = cartsList.filter(cart =>
+    cart.users.some(user => user?.id === currentUser?.id)
+  );
+  console.log('User Carts:', userCarts);
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-IN', {
