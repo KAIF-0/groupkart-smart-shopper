@@ -44,6 +44,20 @@ const Landing = () => {
           <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             GroupKart
           </div>
+          <nav className="flex items-center gap-4">
+            <HeroButton 
+              variant="ghost" 
+              onClick={() => navigate('/shop')}
+            >
+              Shop Products
+            </HeroButton>
+            <HeroButton 
+              variant="ghost" 
+              onClick={() => navigate('/carts')}
+            >
+              My Carts
+            </HeroButton>
+          </nav>
         </motion.div>
       </header>
 
@@ -72,7 +86,7 @@ const Landing = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 mb-6"
             >
               <HeroButton 
                 size="xl" 
@@ -88,6 +102,28 @@ const Landing = () => {
                 onClick={() => navigate('/create-cart')}
               >
                 Shop Solo
+              </HeroButton>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex flex-col sm:flex-row gap-3 text-sm"
+            >
+              <HeroButton 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/shop')}
+              >
+                Browse Products
+              </HeroButton>
+              <HeroButton 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/carts')}
+              >
+                View My Carts
               </HeroButton>
             </motion.div>
           </motion.div>

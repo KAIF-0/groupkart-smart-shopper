@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import CreateCart from "./pages/CreateCart";
 import Cart from "./pages/Cart";
+import Shop from "./pages/Shop";
+import Carts from "./pages/Carts";
 import Summary from "./pages/Summary";
 import NotFound from "./pages/NotFound";
 
@@ -20,6 +22,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/create-cart" element={<CreateCart />} />
+          <Route path="/carts" element={<Carts />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/cart/:cartId" element={<Cart />} />
           <Route path="/summary/:cartId" element={<Summary />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
