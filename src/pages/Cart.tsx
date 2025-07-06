@@ -314,6 +314,29 @@ const Cart = () => {
                           </div>
                         </motion.div>
                       )}
+
+                      {/* Allergy Warning */}
+                      {(() => {
+                        const conflictUsers = checkAllergyConflicts(cartId!, item.ingredients);
+                        if (conflictUsers.length === 0) return null;
+                        return (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            className="mt-4 p-3 bg-warning/10 rounded-lg border border-warning/20"
+                          >
+                            <div className="flex items-start gap-2">
+                              <AlertTriangle className="w-4 h-4 text-warning mt-0.5" />
+                              <div>
+                                <p className="text-sm font-medium text-warning">Allergy Warning</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {conflictUsers.map(u => u.name).join(', ')} {conflictUsers.length === 1 ? 'is' : 'are'} allergic to ingredients in this item
+                                </p>
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      })()}
                     </Card>
                   </motion.div>
                 ))}

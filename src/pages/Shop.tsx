@@ -117,28 +117,8 @@ const Shop = () => {
     setSelectedProduct(null);
   };
 
-  const generateAllergyAlternatives = (product: Product, cartId: string) => {
-    const conflictUsers = checkAllergyConflicts(cartId, product.ingredients);
-    if (conflictUsers.length === 0) return null;
-
-    const alternatives = MOCK_PRODUCTS
-      .filter(p => 
-        p.category === product.category && 
-        p.id !== product.id &&
-        checkAllergyConflicts(cartId, p.ingredients).length === 0
-      )
-      .slice(0, 2);
-
-    if (alternatives.length === 0) return null;
-
-    return {
-      conflictUsers,
-      alternatives
-    };
-  };
 
   const ProductCard = ({ product }: { product: Product }) => {
-    const allergyInfo = userCarts.length > 0 ? generateAllergyAlternatives(product, userCarts[0].id) : null;
 
     return (
       <motion.div
@@ -203,45 +183,6 @@ const Shop = () => {
             </Button>
           </CardFooter>
 
-          {/* Allergy Warning and Alternatives */}
-          {allergyInfo && (
-            <div className="mx-4 mb-4 p-3 bg-warning/10 rounded-lg border border-warning/20">
-              <div className="flex items-start gap-2 mb-3">
-                <AlertTriangle className="w-4 h-4 text-warning mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-warning">Allergy Warning</p>
-                  <p className="text-xs text-muted-foreground">
-                    {allergyInfo.conflictUsers.map(u => u.name).join(', ')} {allergyInfo.conflictUsers.length === 1 ? 'is' : 'are'} allergic to ingredients in this product
-                  </p>
-                </div>
-              </div>
-              
-              {allergyInfo.alternatives.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-4 h-4 text-primary" />
-                    <p className="text-sm font-medium">AI Suggestions</p>
-                  </div>
-                  <div className="space-y-2">
-                    {allergyInfo.alternatives.map((alt) => (
-                      <div key={alt.id} className="flex items-center justify-between p-2 bg-background/50 rounded">
-                        <div>
-                          <p className="text-sm font-medium">{alt.name}</p>
-                          <p className="text-xs text-muted-foreground">₹{alt.price} • Safe for all members</p>
-                        </div>
-                        <Button
-                          size="sm"
-                          onClick={() => handleAddToCart(alt)}
-                        >
-                          Add Instead
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </Card>
       </motion.div>
     );
