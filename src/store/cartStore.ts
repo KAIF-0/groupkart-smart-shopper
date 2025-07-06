@@ -2,9 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Cart, CartItem, User } from '@/types';
 
-type CartStore = {
+// type CartStore = {
+  
+// };
+
+type State = {
+  
   carts: Record<string, Cart>;
   currentUser: User | null;
+}
+
+type Actions = {
   createCart: (cartData: Omit<Cart, 'id' | 'items' | 'totalSavings' | 'smartSwapsAccepted'>) => string;
   addItemToCart: (cartId: string, item: Omit<CartItem, 'id'>) => void;
   removeItemFromCart: (cartId: string, itemId: string) => void;
@@ -16,9 +24,9 @@ type CartStore = {
   getUserContribution: (cartId: string, userId: string) => number;
   getTotalSavings: (cartId: string) => number;
   checkAllergyConflicts: (cartId: string, ingredients: string[]) => User[];
-};
+}
 
-export const useCartStore = create<CartStore>()(
+export const useCartStore = create<State & Actions>()(
   persist(
     (set, get) => ({
       carts: {},

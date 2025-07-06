@@ -8,9 +8,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useCartStore } from '@/store/cartStore';
 import { MOCK_PRODUCTS, PRODUCT_CATEGORIES, type Product } from '@/types';
-import { Star, ShoppingCart, AlertTriangle, CheckCircle, X, Sparkles } from 'lucide-react';
+import { Star, ShoppingCart, AlertTriangle, CheckCircle, X, Sparkles, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { HeroButton } from '@/components/ui/hero-button';
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -19,13 +20,13 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCartSelectionOpen, setIsCartSelectionOpen] = useState(false);
-  
-  const { 
-    carts, 
-    currentUser, 
-    addItemToCart, 
+
+  const {
+    carts,
+    currentUser,
+    addItemToCart,
     checkAllergyConflicts,
-    getCategorySpent 
+    getCategorySpent
   } = useCartStore();
 
   if (!currentUser) {
@@ -33,15 +34,15 @@ const Shop = () => {
     return null;
   }
 
-  const cartsList = Object.values(carts);
-  const userCarts = cartsList.filter(cart => 
-    cart.users.some(user => user.id === currentUser.id)
-  );
+  const userCarts = Object.values(carts);
+  // const userCarts = cartsList.filter(cart =>
+  //   cart.users.some(user => user.id === currentUser.id)
+  // );
 
   const filteredProducts = MOCK_PRODUCTS.filter(product => {
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
+      product.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -69,7 +70,7 @@ const Shop = () => {
 
     // Check for allergy conflicts
     const conflictUsers = checkAllergyConflicts(cartId, product.ingredients);
-    
+
     const itemData = {
       name: product.name,
       price: product.price,
@@ -129,8 +130,8 @@ const Shop = () => {
       >
         <Card className="h-full flex flex-col bg-card/50 backdrop-blur-sm hover:shadow-card transition-all duration-300">
           <div className="relative">
-            <img 
-              src={product.image} 
+            <img
+              src={product.image}
               alt={product.name}
               className="w-full h-48 object-cover rounded-t-lg"
             />
@@ -138,7 +139,7 @@ const Shop = () => {
               {product.category}
             </Badge>
           </div>
-          
+
           <CardContent className="flex-1 p-4 space-y-2">
             <div className="flex items-start justify-between">
               <h3 className="font-semibold text-lg leading-tight">{product.name}</h3>
@@ -147,17 +148,17 @@ const Shop = () => {
                 <p className="text-xs text-muted-foreground">{product.brand}</p>
               </div>
             </div>
-            
+
             <p className="text-sm text-muted-foreground line-clamp-2">
               {product.description}
             </p>
-            
+
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               <span className="text-sm font-medium">{product.rating}</span>
               <span className="text-xs text-muted-foreground">({product.reviews})</span>
             </div>
-            
+
             <div className="flex flex-wrap gap-1">
               {product.ingredients.slice(0, 3).map((ingredient) => (
                 <Badge key={ingredient} variant="secondary" className="text-xs">
@@ -171,9 +172,9 @@ const Shop = () => {
               )}
             </div>
           </CardContent>
-          
+
           <CardFooter className="p-4 pt-0">
-            <Button 
+            <Button
               onClick={() => handleAddToCart(product)}
               className="w-full"
               disabled={userCarts.length === 0}
@@ -191,6 +192,29 @@ const Shop = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 p-4">
       <div className="container max-w-7xl mx-auto py-6">
+
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-right mb-8"
+        >
+          <Button
+            variant="ghost"
+            onClick={() => navigate(`/`)}
+            className="mb-6"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+
+          <HeroButton
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/carts')}
+          >
+            View My Carts
+          </HeroButton>
+        </motion.div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

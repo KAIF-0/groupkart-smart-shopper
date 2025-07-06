@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useCartStore } from '@/store/cartStore';
-import { Users, ShoppingCart, TrendingUp, Calendar, Eye, Trash2 } from 'lucide-react';
+import { Users, ShoppingCart, TrendingUp, Calendar, Eye, Trash2, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { HeroButton } from '@/components/ui/hero-button';
 
@@ -17,10 +17,7 @@ const Carts = () => {
     return null;
   }
 
-  const cartsList = Object.values(carts);
-  const userCarts = cartsList.filter(cart => 
-    cart.users.some(user => user.id === currentUser.id)
-  );
+  const userCarts = Object.values(carts)
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-IN', {
@@ -46,7 +43,7 @@ const Carts = () => {
         whileHover={{ y: -5 }}
         className="h-full"
       >
-        <Card className="h-full bg-card/50 backdrop-blur-sm hover:shadow-card transition-all duration-300">
+        <Card className="h-full bg-card/50 flex flex-col justify-between backdrop-blur-sm hover:shadow-card transition-all duration-300">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div>
@@ -131,14 +128,14 @@ const Carts = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-2 pt-2">
-              <Button 
+              <Button
                 onClick={() => navigate(`/cart/${cart.id}`)}
                 className="flex-1"
               >
                 <Eye className="w-4 h-4 mr-2" />
                 View Cart
               </Button>
-              <Button 
+              <Button
                 onClick={() => navigate(`/summary/${cart.id}`)}
                 variant="outline"
                 className="flex-1"
@@ -156,6 +153,21 @@ const Carts = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 p-4">
       <div className="container max-w-6xl mx-auto py-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-left mb-8"
+        >
+          <Button
+            variant="ghost"
+            onClick={() => navigate(`/`)}
+            className="mb-6"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+        </motion.div>
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -168,7 +180,7 @@ const Carts = () => {
               Manage all your shopping carts in one place
             </p>
           </div>
-          
+
           <div className="flex gap-2">
             <Button onClick={() => navigate('/shop')} variant="outline">
               <ShoppingCart className="w-4 h-4 mr-2" />
@@ -195,7 +207,7 @@ const Carts = () => {
               </div>
             </div>
           </Card>
-          
+
           <Card className="p-4 bg-card/50 backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-success" />
@@ -207,7 +219,7 @@ const Carts = () => {
               </div>
             </div>
           </Card>
-          
+
           <Card className="p-4 bg-card/50 backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <Users className="w-5 h-5 text-secondary" />
