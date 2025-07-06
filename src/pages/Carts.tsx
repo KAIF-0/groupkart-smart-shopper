@@ -12,10 +12,10 @@ const Carts = () => {
   const navigate = useNavigate();
   const { carts, currentUser } = useCartStore();
 
-  if (!currentUser) {
-    navigate('/');
-    return null;
-  }
+  // if (!currentUser) {
+  //   navigate('/');
+  //   return null;
+  // }
 
   const userCarts = Object.values(carts)
 

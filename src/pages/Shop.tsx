@@ -29,10 +29,10 @@ const Shop = () => {
     getCategorySpent
   } = useCartStore();
 
-  if (!currentUser) {
-    navigate('/');
-    return null;
-  }
+  // if (!currentUser) {
+  //   navigate('/');
+  //   return null;
+  // }
 
   const userCarts = Object.values(carts);
   // const userCarts = cartsList.filter(cart =>
