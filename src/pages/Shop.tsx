@@ -34,10 +34,10 @@ const Shop = () => {
   //   return null;
   // }
 
-  const cartsList = Object.values(carts);
-  const userCarts = cartsList.filter(cart =>
-    cart.users.some(user => user.id === currentUser?.id)
-  );
+  const userCarts = Object.values(carts);
+  // const userCarts = cartsList.filter(cart =>
+  //   cart.users.some(user => user.id === currentUser?.id)
+  // );
 
   const filteredProducts = MOCK_PRODUCTS.filter(product => {
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;

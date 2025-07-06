@@ -17,11 +17,10 @@ const Carts = () => {
   //   return null;
   // }
 
-  const cartsList = Object.values(carts);
-  const userCarts = cartsList.filter(cart =>
-    cart.users.some(user => user?.id === currentUser?.id)
-  );
-  console.log('User Carts:', userCarts);
+  const userCarts = Object.values(carts);
+  // const userCarts = cartsList.filter(cart =>
+  //   cart.users.some(user => user?.id === currentUser?.id)
+  // );
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('en-IN', {
@@ -53,8 +52,8 @@ const Carts = () => {
               <div>
                 <CardTitle className="text-xl mb-2">{cart.name}</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Badge variant={isGroup ? "default" : "secondary"}>
-                    {isGroup ? 'Group' : 'Solo'}
+                  <Badge variant={cart.cartType === 'solo' ? "default" : "secondary"}>
+                    {cart.cartType === 'group' ? 'Group' : 'Solo'}
                   </Badge>
                   <Badge variant="outline" className="text-xs">
                     {cart.items.length} items

@@ -8,13 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { HeroButton } from '@/components/ui/hero-button';
 import { useCartStore } from '@/store/cartStore';
-import { COMMON_ALLERGIES, PRODUCT_CATEGORIES } from '@/types';
+import { CartType, COMMON_ALLERGIES, PRODUCT_CATEGORIES } from '@/types';
 import { Users, User, ShoppingCart, ArrowLeft } from 'lucide-react';
 
 const CreateCart = () => {
   const navigate = useNavigate();
   const { createCart, setCurrentUser } = useCartStore();
-  
+
   const [isGroup, setIsGroup] = useState<boolean | null>(null);
   const [cartName, setCartName] = useState('');
   const [userName, setUserName] = useState('');
@@ -22,8 +22,8 @@ const CreateCart = () => {
   const [categoryBudgets, setCategoryBudgets] = useState<Record<string, number>>({});
 
   const handleAllergyToggle = (allergy: string) => {
-    setSelectedAllergies(prev => 
-      prev.includes(allergy) 
+    setSelectedAllergies(prev =>
+      prev.includes(allergy)
         ? prev.filter(a => a !== allergy)
         : [...prev, allergy]
     );
@@ -47,6 +47,7 @@ const CreateCart = () => {
 
     const cartId = createCart({
       name: cartName.trim(),
+      cartType: isGroup ? CartType.GROUP : CartType.SOLO,
       users: [user],
       categoryBudgets
     });
@@ -71,7 +72,7 @@ const CreateCart = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
             </Button>
-            
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               How would you like to shop?
             </h1>
@@ -86,7 +87,7 @@ const CreateCart = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card 
+              <Card
                 className="p-8 h-full cursor-pointer hover:shadow-card hover:scale-105 transition-all duration-300 border-primary/20 bg-card/50 backdrop-blur-sm"
                 onClick={() => setIsGroup(false)}
               >
@@ -112,7 +113,7 @@ const CreateCart = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <Card 
+              <Card
                 className="p-8 h-full cursor-pointer hover:shadow-card hover:scale-105 transition-all duration-300 border-secondary/20 bg-card/50 backdrop-blur-sm"
                 onClick={() => setIsGroup(true)}
               >
@@ -155,7 +156,7 @@ const CreateCart = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          
+
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
             {isGroup ? 'Create Group Cart' : 'Create Solo Cart'}
           </h1>
@@ -182,7 +183,7 @@ const CreateCart = () => {
                     onChange={(e) => setCartName(e.target.value)}
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="userName">Your Name</Label>
                   <Input

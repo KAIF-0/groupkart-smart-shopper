@@ -18,10 +18,16 @@ export type CartItem = {
   };
 };
 
+export enum CartType {
+  SOLO = 'solo',
+  GROUP = 'group',
+}
+
 export type Cart = {
   id: string;
   name: string;
   users: User[];
+  cartType: CartType;
   categoryBudgets: Record<string, number>;
   items: CartItem[];
   totalSavings: number;

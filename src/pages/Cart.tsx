@@ -12,24 +12,25 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCartStore } from '@/store/cartStore';
 import { PRODUCT_CATEGORIES } from '@/types';
-import { Plus, Users, Share, AlertTriangle, CheckCircle, X, Sparkles, Receipt } from 'lucide-react';
+import { Plus, Users, Share, AlertTriangle, CheckCircle, X, Sparkles, Receipt, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { HeroButton } from '@/components/ui/hero-button';
 
 const Cart = () => {
   const { cartId } = useParams<{ cartId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
-  const { 
-    getCart, 
-    addItemToCart, 
-    removeItemFromCart, 
-    acceptSwap, 
-    getCategorySpent, 
+
+  const {
+    getCart,
+    addItemToCart,
+    removeItemFromCart,
+    acceptSwap,
+    getCategorySpent,
     checkAllergyConflicts,
-    currentUser 
+    currentUser
   } = useCartStore();
-  
+
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
   const [newItem, setNewItem] = useState({
     name: '',
@@ -52,7 +53,7 @@ const Cart = () => {
     if (!newItem.name || !newItem.price || !newItem.category) return;
 
     const ingredients = newItem.ingredients.split(',').map(i => i.trim()).filter(Boolean);
-    
+
     // Check for allergy conflicts
     const conflictUsers = checkAllergyConflicts(cartId!, ingredients);
     if (conflictUsers.length > 0) {
@@ -93,7 +94,7 @@ const Cart = () => {
     };
 
     addItemToCart(cartId!, itemWithSwap);
-    
+
     toast({
       title: "Item Added!",
       description: `${newItem.name} has been added to your cart.`,
@@ -137,6 +138,20 @@ const Cart = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 p-4">
       <div className="container max-w-4xl mx-auto py-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-right mb-8"
+        >
+          <Button
+            variant="ghost"
+            onClick={() => navigate(`/carts`)}
+            className="mb-6"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+        </motion.div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -147,12 +162,12 @@ const Cart = () => {
             <h1 className="text-3xl font-bold">{cart.name}</h1>
             <p className="text-muted-foreground">Total: ₹{totalSpent.toFixed(2)}</p>
           </div>
-          
+
           <div className="flex gap-2">
-            <Button onClick={handleShareCart} variant="outline">
+            {cart.cartType === 'group' && <Button onClick={handleShareCart} variant="outline">
               <Share className="w-4 h-4 mr-2" />
               Share
-            </Button>
+            </Button>}
             <Button onClick={() => navigate(`/summary/${cartId}`)}>
               <Receipt className="w-4 h-4 mr-2" />
               Summary
@@ -165,21 +180,21 @@ const Cart = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Add Item Button */}
             <Dialog open={isAddItemOpen} onOpenChange={setIsAddItemOpen}>
-              <DialogTrigger asChild>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <Card className="p-6 cursor-pointer hover:shadow-card transition-all duration-300 border-dashed border-2 border-primary/50 bg-primary/5">
-                    <div className="flex items-center justify-center gap-2 text-primary">
-                      <Plus className="w-6 h-6" />
-                      <span className="font-semibold">Add Item to Cart</span>
-                    </div>
-                  </Card>
-                </motion.div>
-              </DialogTrigger>
-              
+              {/* <DialogTrigger asChild> */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                <Card onClick={() => navigate('/shop')} className="p-6 cursor-pointer hover:shadow-card transition-all duration-300 border-dashed border-2 border-primary/50 bg-primary/5">
+                  <div className="flex items-center justify-center gap-2 text-primary">
+                    <Plus className="w-6 h-6" />
+                    <span className="font-semibold">Add Item to Cart</span>
+                  </div>
+                </Card>
+              </motion.div>
+              {/* </DialogTrigger> */}
+
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Add New Item</DialogTitle>
@@ -194,7 +209,7 @@ const Cart = () => {
                       onChange={(e) => setNewItem(prev => ({ ...prev, name: e.target.value }))}
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="itemPrice">Price (₹)</Label>
                     <Input
@@ -205,7 +220,7 @@ const Cart = () => {
                       onChange={(e) => setNewItem(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="itemCategory">Category</Label>
                     <Select onValueChange={(value) => setNewItem(prev => ({ ...prev, category: value }))}>
@@ -221,7 +236,7 @@ const Cart = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="itemIngredients">Ingredients (comma-separated)</Label>
                     <Input
@@ -231,7 +246,7 @@ const Cart = () => {
                       onChange={(e) => setNewItem(prev => ({ ...prev, ingredients: e.target.value }))}
                     />
                   </div>
-                  
+
                   <Button onClick={handleAddItem} className="w-full">
                     Add to Cart
                   </Button>
@@ -262,7 +277,7 @@ const Cart = () => {
                           </div>
                           <p className="text-lg font-bold mt-2">₹{item.price}</p>
                         </div>
-                        
+
                         <Button
                           variant="ghost"
                           size="sm"
@@ -271,7 +286,7 @@ const Cart = () => {
                           <X className="w-4 h-4" />
                         </Button>
                       </div>
-                      
+
                       {/* AI Swap Suggestion */}
                       {item.suggestedSwap && (
                         <motion.div
@@ -341,7 +356,7 @@ const Cart = () => {
                   </motion.div>
                 ))}
               </AnimatePresence>
-              
+
               {cart.items.length === 0 && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -400,7 +415,7 @@ const Cart = () => {
                       const spent = getCategorySpent(cartId!, category);
                       const progress = getBudgetProgress(category);
                       const isOverBudget = progress > 100;
-                      
+
                       return (
                         <div key={category}>
                           <div className="flex justify-between text-sm mb-1">
@@ -409,8 +424,8 @@ const Cart = () => {
                               ₹{spent.toFixed(0)} / ₹{budget}
                             </span>
                           </div>
-                          <Progress 
-                            value={Math.min(progress, 100)} 
+                          <Progress
+                            value={Math.min(progress, 100)}
                             className={`h-2 ${isOverBudget ? 'bg-danger/20' : ''}`}
                           />
                           {isOverBudget && (
